@@ -161,10 +161,12 @@ def totale_financiere():
 
 # FONCTION PRODUIT PAR CATEGORIE
 def produit_categorie():
-    requete = "SELECT p.nom c.nom_categorie FROM Categories c JOIN Produits p ON p.id_categorie = c.id_categorie GROUP BY nom_categorie "
-    moncurseur.execute(requete,)
+    requete = """SELECT  c.nom_categorie, GROUP_CONCAT(p.nom SEPARATOR ",") as PRODUITS FROM Categories c JOIN Produits p ON p.id_categorie = c.id_categorie GROUP BY c.nom_categorie """
+    moncurseur.execute(requete)
     resultat = moncurseur.fetchall()
-    print(resultat)
+    for categorie, produit in resultat:
+        print(f"{categorie}: {produit}")
+    
 # CREATION DE LA FONCTION DASHBOARD
 def dashboard():
     print("1. Le produit le plus cher")
